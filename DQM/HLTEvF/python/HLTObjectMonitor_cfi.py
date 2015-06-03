@@ -19,10 +19,10 @@ pfMet_moduleName = "hltPFMET120"
 jetAk8_pathName = "HLT_AK8PFJet360TrimMod_Mass30"
 jetAk8_moduleName = "hltAK8SinglePFJet360TrimModMass30"
 
-bJet_pathName = "HLT_PFMET120_NoiseCleaned_BTagCSV07"
-bJet_moduleName = "hltPFMET120Filter"
-bJet_pathNameOR = "HLT_QuadPFJet_SingleBTagCSV_VBF_Mqq500"
-bJet_moduleNameOR = "hltCSVPF0p7"
+bJet_pathNameCalo = "HLT_PFMET120_NoiseCleaned_BTagCSV07"
+bJet_moduleNameCalo = "hltBLifetimeL3FilterCSVsusy"
+bJet_pathNamePF = "HLT_QuadPFJet_SingleBTagCSV_VBF_Mqq500"
+bJet_moduleNamePF = "hltCSVPF0p7"
 
 #To avoid booking histogram, set pathName = cms.string("")
 
@@ -175,37 +175,36 @@ hltObjectMonitor = cms.EDAnalyzer('HLTObjectMonitor',
         Xmax = cms.int32(2000)
         ),
     bJetEta = cms.PSet(
-        pathName = cms.string(bJet_pathName),
-        moduleName = cms.string(bJet_moduleName),
-        pathName_OR = cms.string(bJet_pathNameOR),
-        moduleName_OR = cms.string(bJet_moduleNameOR),
+        pathName = cms.string(bJet_pathNameCalo),
+        moduleName = cms.string(bJet_moduleNameCalo),
+        pathName_OR = cms.string(bJet_pathNamePF),
+        moduleName_OR = cms.string(bJet_moduleNamePF),
         NbinsX = cms.int32(50),
         Xmin = cms.int32(0),
         Xmax = cms.int32(3)
         ),
     bJetPhi = cms.PSet(
-        pathName = cms.string(bJet_pathName),
-        moduleName = cms.string(bJet_moduleName),
-        pathName_OR = cms.string(bJet_pathNameOR),
-        moduleName_OR = cms.string(bJet_moduleNameOR),
+        pathName = cms.string(bJet_pathNameCalo),
+        moduleName = cms.string(bJet_moduleNameCalo),
+        pathName_OR = cms.string(bJet_pathNamePF),
+        moduleName_OR = cms.string(bJet_moduleNamePF),
         NbinsX = cms.int32(50),
         Xmin = cms.double(-3.4),
         Xmax = cms.double(3.4)
         ),
-    diMuonMass = cms.PSet(
-        pathName = cms.string("HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ"),
-        moduleName = cms.string("hltDiMuonGlb17Glb8RelTrkIsoFiltered0p4DzFiltered0p2"),
-        pathName_OR = cms.string("HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ"),
-        moduleName_OR = cms.string("hltDiMuonGlb17Trk8RelTrkIsoFiltered0p4DzFiltered0p2"),
-        NbinsX = cms.int32(50),
-        Xmin = cms.int32(60),
-        Xmax = cms.int32(160)
+    bJetCSVCalo = cms.PSet(
+        pathName = cms.string(bJet_pathNameCalo),
+        moduleName = cms.string(bJet_moduleNameCalo),
+        NbinsX = cms.int32(110),
+        Xmin = cms.int32(-10),
+        Xmax = cms.int32(1)
         ),
-    diElecMass = cms.PSet(
-        pathName = cms.string("HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_DZ"),
-        moduleName = cms.string("hltEle23Ele12CaloIdLTrackIdLIsoVLDZFilter"),
-        NbinsX = cms.int32(50),
-        Xmin = cms.int32(60),
-        Xmax = cms.int32(160)
+    bJetCSVPF = cms.PSet(
+        pathName = cms.string(bJet_pathNamePF),
+        moduleName = cms.string(bJet_moduleNamePF),
+        NbinsX = cms.int32(110),
+        Xmin = cms.int32(-10),
+        Xmax = cms.int32(1)
         )
+
 )
