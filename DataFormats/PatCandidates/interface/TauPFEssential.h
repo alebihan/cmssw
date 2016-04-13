@@ -48,6 +48,19 @@ struct TauPFEssential {
   reco::VertexRef sv_;
   Point svPos_;
   CovMatrix svCov_;
+  float ip3d_;
+  float ip3d_error_;
+  float ip3d_Sig_;
+  float ecalEnergy_;
+  float hcalEnergy_;
+  float leadingTrackNormChi2_; 
+  float etaAtEcalEntrance_;
+  float phiAtEcalEntrance_;
+  float etaAtEcalEntranceLeadChargedHadrCand_;
+  float phiAtEcalEntranceLeadChargedHadrCand_;
+  float ecalEnergyLeadChargedHadrCand_;
+  float hcalEnergyLeadChargedHadrCand_;
+ 
 };
 
 } }
