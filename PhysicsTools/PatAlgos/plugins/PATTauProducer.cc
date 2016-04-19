@@ -418,8 +418,8 @@ void PATTauProducer::produce(edm::Event & iEvent, const edm::EventSetup & iSetup
          aTauPFEssential.etaAtEcalEntrance_ = sumEtaTimesEnergy/sumEnergy;
          aTauPFEssential.phiAtEcalEntrance_ = sumPhiTimesEnergy/sumEnergy; }
 	else {
-	 aTauPFEssential.etaAtEcalEntrance_ = 0.;
-	 aTauPFEssential.phiAtEcalEntrance_ = 0.; }
+	 aTauPFEssential.etaAtEcalEntrance_ = -99.;
+	 aTauPFEssential.phiAtEcalEntrance_ = -99.; }
 	 
         float leadingTrackNormChi2 = 0;
 	float ecalEnergyLeadChargedHadrCand = -99.;
