@@ -349,11 +349,16 @@ namespace pat {
       float etaAtEcalEntrance() const { return pfEssential().etaAtEcalEntrance_; }
       /// return phiAtEcalEntrance
       float phiAtEcalEntrance() const { return pfEssential().phiAtEcalEntrance_; }
-      /// return etaAtEcalEntrance from LeadChargedHadrCand
-      float etaAtEcalEntranceLeadChargedHadrCand() const { return pfEssential().etaAtEcalEntranceLeadChargedHadrCand_; }
-      /// return phiAtEcalEntrance from  LeadChargedHadrCand
-      float phiAtEcalEntranceLeadChargedHadrCand() const { return pfEssential().phiAtEcalEntranceLeadChargedHadrCand_; }
-    
+       
+      /// return etaAtEcalEntrance from LeadChargedCand
+      float etaAtEcalEntranceLeadChargedCand() const { return pfEssential().etaAtEcalEntranceLeadChargedCand_; }
+      /// return phiAtEcalEntrance from  LeadChargedCand
+      float phiAtEcalEntranceLeadChargedCand() const { return pfEssential().phiAtEcalEntranceLeadChargedCand_; }
+      /// return pt from  LeadChargedCand
+      float ptLeadChargedCand() const { return pfEssential().ptLeadChargedCand_; }
+      /// return emFraction_AC
+      float emFraction_AC() const { return pfEssential().emFraction_; }
+      
       /// Methods copied from reco::Jet.
       /// (accessible from reco::CaloTau/reco::PFTau via reco::CaloTauTagInfo/reco::PFTauTagInfo)
       reco::Candidate::LorentzVector p4Jet() const;
