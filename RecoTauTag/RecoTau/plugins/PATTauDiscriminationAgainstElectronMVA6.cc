@@ -97,7 +97,7 @@ double PATTauDiscriminationAgainstElectronMVA6::discriminate(const TauRef& theTa
   float tauEtaAtEcalEntrance = theTauRef->etaAtEcalEntrance();
   
   
-  float leadChargedPFCandEtaAtEcalEntrance = theTauRef->etaAtEcalEntranceLeadChargedHadrCand();
+  float leadChargedPFCandEtaAtEcalEntrance = theTauRef->etaAtEcalEntranceLeadChargedCand();
   
   float leadChargedPFCandPt = -99.;
   const reco::CandidatePtrVector signalCands = theTauRef->signalCands();

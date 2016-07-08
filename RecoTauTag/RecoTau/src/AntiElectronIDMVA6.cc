@@ -892,12 +892,14 @@ double AntiElectronIDMVA6::MVAValue(const reco::PFTau& thePFTau)
 double AntiElectronIDMVA6::MVAValue(const pat::Tau& theTau,
 				    const pat::Electron& theEle)
 
-{/*
+{
   // === tau variables ===
   float TauEtaAtEcalEntrance = theTau.etaAtEcalEntrance();
   
-  float TauLeadChargedPFCandEtaAtEcalEntrance = theTau.etaAtEcalEntranceLeadChargedHadrCand();
-  float TauLeadChargedPFCandPt = -99.;
+  float TauLeadChargedPFCandEtaAtEcalEntrance = theTau.etaAtEcalEntranceLeadChargedCand();
+  float TauLeadChargedPFCandPt = theTau.ptLeadChargedCand();
+  
+  /*float TauLeadChargedPFCandPt = -99.;
   
   const reco::CandidatePtrVector signalCands = theTau.signalCands();
     for (unsigned int o = 0; o < signalCands.size(); o++ ) {
@@ -909,15 +911,17 @@ double AntiElectronIDMVA6::MVAValue(const pat::Tau& theTau,
 	   TauLeadChargedPFCandPt = track.pt();
 	}
        
-    }
+    }*/
+    
 
   Float_t TauPt = theTau.pt();
-  Float_t TauEmFraction = std::max(theTau.ecalEnergy()/(theTau.ecalEnergy()+theTau.hcalEnergy()), (Float_t)0.);
+  //Float_t TauEmFraction = std::max(theTau.ecalEnergy()/(theTau.ecalEnergy()+theTau.hcalEnergy()), (Float_t)0.);
+  Float_t TauEmFraction = theTau.emFraction_AC();
   Float_t TauLeadPFChargedHadrHoP = 0.;
   Float_t TauLeadPFChargedHadrEoP = 0.;
   if ( theTau.leadChargedHadrCand()->p() > 0. ) {
-    TauLeadPFChargedHadrHoP = theTau.ecalEnergyLeadChargedHadrCand()/theTau.leadChargedHadrCand()->p();
-    TauLeadPFChargedHadrEoP = theTau.hcalEnergyLeadChargedHadrCand()/theTau.leadChargedHadrCand()->p();
+    TauLeadPFChargedHadrHoP = theTau.hcalEnergyLeadChargedHadrCand()/theTau.leadChargedHadrCand()->p();
+    TauLeadPFChargedHadrEoP = theTau.ecalEnergyLeadChargedHadrCand()/theTau.leadChargedHadrCand()->p();
   }
 
   std::vector<Float_t> GammasdEtaInSigCone;
@@ -1079,7 +1083,9 @@ double AntiElectronIDMVA6::MVAValue(const pat::Tau& theTau,
                   ElecDeltaPhi,
                   ElecMvaInSigmaEtaEta,
                   ElecMvaInHadEnergy,
-                  ElecMvaInDeltaEta);*/ return 6.7;
+                  ElecMvaInDeltaEta);
+		  
+		  //return 6.7;
 }
 
 double AntiElectronIDMVA6::MVAValue(const pat::Tau& theTau)
@@ -1089,8 +1095,9 @@ double AntiElectronIDMVA6::MVAValue(const pat::Tau& theTau)
   float pt = theTau.pt();
   float TauEtaAtEcalEntrance = theTau.etaAtEcalEntrance();
   
-  float TauLeadChargedPFCandEtaAtEcalEntrance = theTau.etaAtEcalEntranceLeadChargedHadrCand();
-  float TauLeadChargedPFCandPt = -99.;
+  float TauLeadChargedPFCandEtaAtEcalEntrance = theTau.etaAtEcalEntranceLeadChargedCand();
+  float TauLeadChargedPFCandPt = theTau.ptLeadChargedCand();
+  /*float TauLeadChargedPFCandPt = -99.;
   
   const reco::CandidatePtrVector signalCands = theTau.signalCands();
     for (unsigned int o = 0; o < signalCands.size(); o++ ) {
@@ -1102,15 +1109,16 @@ double AntiElectronIDMVA6::MVAValue(const pat::Tau& theTau)
 	   TauLeadChargedPFCandPt = track.pt();
 	}
        
-    }
+    }*/
 
   Float_t TauPt = theTau.pt();
-  Float_t TauEmFraction = std::max(theTau.ecalEnergy()/(theTau.ecalEnergy()+theTau.hcalEnergy()), (Float_t)0.);
+  //Float_t TauEmFraction = std::max(theTau.ecalEnergy()/(theTau.ecalEnergy()+theTau.hcalEnergy()), (Float_t)0.);
+  Float_t TauEmFraction = std::max(theTau.emFraction_AC(), (Float_t)0.);
   Float_t TauLeadPFChargedHadrHoP = 0.;
   Float_t TauLeadPFChargedHadrEoP = 0.;
   if ( theTau.leadChargedHadrCand()->p() > 0. ) {
-    TauLeadPFChargedHadrHoP = theTau.ecalEnergyLeadChargedHadrCand()/theTau.leadChargedHadrCand()->p();
-    TauLeadPFChargedHadrEoP = theTau.hcalEnergyLeadChargedHadrCand()/theTau.leadChargedHadrCand()->p();
+    TauLeadPFChargedHadrHoP = theTau.hcalEnergyLeadChargedHadrCand()/theTau.leadChargedHadrCand()->p();
+    TauLeadPFChargedHadrEoP = theTau.ecalEnergyLeadChargedHadrCand()/theTau.leadChargedHadrCand()->p();
   }
 
   std::vector<Float_t> GammasdEtaInSigCone;
