@@ -424,26 +424,44 @@ void PATTauProducer::produce(edm::Event & iEvent, const edm::EventSetup & iSetup
         float leadingTrackNormChi2 = 0;
 	float ecalEnergyLeadChargedHadrCand = -99.;
         float hcalEnergyLeadChargedHadrCand = -99.;
-	float etaAtEcalEntranceLeadChargedHadrCand = -99.;
-        float phiAtEcalEntranceLeadChargedHadrCand = -99.;
-  
+	float emFraction = -1.;
+	float myHCALenergy = 0.;
+	float myECALenergy = 0.;
+	
         const reco::PFCandidatePtr& leadingPFCharged = pfTauRef->leadPFChargedHadrCand();
         if(leadingPFCharged.isNonnull()) {
-        	reco::TrackRef trackRef = leadingPFCharged->trackRef();
-        	if(trackRef.isNonnull()) {
-        		leadingTrackNormChi2 = trackRef->normalizedChi2();
-        	}
+	        
 		ecalEnergyLeadChargedHadrCand = leadingPFCharged->ecalEnergy();
         	hcalEnergyLeadChargedHadrCand = leadingPFCharged->hcalEnergy();			
-		etaAtEcalEntranceLeadChargedHadrCand = leadingPFCharged->positionAtECALEntrance().eta();
-                phiAtEcalEntranceLeadChargedHadrCand = leadingPFCharged->positionAtECALEntrance().phi();
+		
+		reco::TrackRef trackRef = leadingPFCharged->trackRef();
+        	if(trackRef.isNonnull()) {
+        		leadingTrackNormChi2 = trackRef->normalizedChi2();
+			
+			std::vector<reco::PFCandidatePtr> myPFCands;
+                        myPFCands.reserve(pfTauRef->isolationPFCands().size()+pfTauRef->signalPFCands().size());
+ 
+                        std::copy(pfTauRef->isolationPFCands().begin(), pfTauRef->isolationPFCands().end(),
+                        std::back_inserter(myPFCands));
+                        std::copy(pfTauRef->signalPFCands().begin(), pfTauRef->signalPFCands().end(),
+                        std::back_inserter(myPFCands));
+			
+			for(int i=0;i<(int)myPFCands.size();i++){
+	                   myHCALenergy += myPFCands[i]->hcalEnergy();
+	                   myECALenergy += myPFCands[i]->ecalEnergy();}
+ 
+ 
+			if ( myHCALenergy + myECALenergy != 0. )
+                        emFraction = myECALenergy/( myHCALenergy + myECALenergy);    
+                        
+        	}
+		
         }
+	aTauPFEssential.emFraction_ = emFraction;
         aTauPFEssential.leadingTrackNormChi2_ = leadingTrackNormChi2;
 	aTauPFEssential.ecalEnergyLeadChargedHadrCand_ = ecalEnergyLeadChargedHadrCand;
 	aTauPFEssential.hcalEnergyLeadChargedHadrCand_ = hcalEnergyLeadChargedHadrCand;
-	aTauPFEssential.etaAtEcalEntranceLeadChargedHadrCand_ = etaAtEcalEntranceLeadChargedHadrCand;
-	aTauPFEssential.phiAtEcalEntranceLeadChargedHadrCand_ = phiAtEcalEntranceLeadChargedHadrCand;	
-        
+	
     }
 
     // Isolation
