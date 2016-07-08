@@ -16,10 +16,12 @@ pat::tau::TauPFEssential::TauPFEssential(const reco::PFTau& tau) :
     leadingTrackNormChi2_(1.e+3),
     etaAtEcalEntrance_(0.),
     phiAtEcalEntrance_(0.),
-    etaAtEcalEntranceLeadChargedHadrCand_(0.),
-    phiAtEcalEntranceLeadChargedHadrCand_(0.),
     ecalEnergyLeadChargedHadrCand_(0.),
-    hcalEnergyLeadChargedHadrCand_(0.)
+    hcalEnergyLeadChargedHadrCand_(0.),
+    etaAtEcalEntranceLeadChargedCand_(0.),
+    phiAtEcalEntranceLeadChargedCand_(0.),
+    ptLeadChargedCand_(0.),
+    emFraction_(0.)
 {
   if ( tau.jetRef().isAvailable() && tau.jetRef().isNonnull() ) { // CV: add protection to ease transition to new CMSSW 4_2_x RecoTauTags
     p4Jet_ = tau.jetRef()->p4();
