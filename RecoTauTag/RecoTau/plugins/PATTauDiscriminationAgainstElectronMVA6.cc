@@ -91,7 +91,7 @@ double PATTauDiscriminationAgainstElectronMVA6::discriminate(const TauRef& theTa
   double category = -1.;
   bool isGsfElectronMatched = false;
 
-  float deltaRDummy = 0.3;
+  float deltaRDummy = 9.9;
 
   const float ECALBarrelEndcapEtaBorder = 1.479;
   float tauEtaAtEcalEntrance = theTauRef->etaAtEcalEntrance();
@@ -99,8 +99,9 @@ double PATTauDiscriminationAgainstElectronMVA6::discriminate(const TauRef& theTa
   
   float leadChargedPFCandEtaAtEcalEntrance = theTauRef->etaAtEcalEntranceLeadChargedCand();
   
-  float leadChargedPFCandPt = -99.;
-  const reco::CandidatePtrVector signalCands = theTauRef->signalCands();
+  //float leadChargedPFCandPt = theTauRef->ptLeadChargedCand();
+    
+  /* const reco::CandidatePtrVector signalCands = theTauRef->signalCands();
     for (unsigned int o = 0; o < signalCands.size(); o++ ) {
       
        pat::PackedCandidate const*  signalCand = dynamic_cast<pat::PackedCandidate const*> (signalCands[o].get());
@@ -109,7 +110,7 @@ double PATTauDiscriminationAgainstElectronMVA6::discriminate(const TauRef& theTa
 	if ( track.pt() > leadChargedPFCandPt ) {
 	   leadChargedPFCandPt = track.pt();
 	}      
-    }
+    }*/
     
     
   if( (*theTauRef).leadChargedHadrCand().isNonnull()) {
@@ -130,7 +131,6 @@ double PATTauDiscriminationAgainstElectronMVA6::discriminate(const TauRef& theTa
     }
     
     // loop over the electrons
-    int idx = -1;
     for (unsigned int ie = 0; ie < Electrons->size(); ie++)
     {
       const pat::Electron& theElectron = Electrons->at(ie);
@@ -139,20 +139,15 @@ double PATTauDiscriminationAgainstElectronMVA6::discriminate(const TauRef& theTa
 	
 	double deltaREleTau = deltaR(theElectron.p4(), theTauRef->p4());
 	deltaRDummy = deltaREleTau;
-	if ( deltaREleTau < deltaRDummy ) { deltaRDummy = deltaREleTau; idx = ie;}
-	}
-      }
-      
-      if (idx != -1) 
-      {
-	  const pat::Electron& theElectron = Electrons->at(idx);
-	  
+	if ( deltaREleTau < 0.3 ) 
+	{ 
+	
 	  double mva_match = mva_->MVAValue(*theTauRef, theElectron);
 	  
 	  bool hasGsfTrack = 0;
           pat::PackedCandidate const* packedLeadTauCand = dynamic_cast<pat::PackedCandidate const*>(theTauRef->leadChargedHadrCand().get());
           if( abs(packedLeadTauCand->pdgId()) == 11 ) hasGsfTrack = 1;
- 
+	  
 	  if ( !hasGsfTrack )
             hasGsfTrack = theElectron.gsfTrack().isNonnull();
 
@@ -163,6 +158,8 @@ double PATTauDiscriminationAgainstElectronMVA6::discriminate(const TauRef& theTa
 	    // return MVA output value
 	    return -99;
 	  }
+	  
+	  
 	  //// Veto taus that go to Ecal crack
 
 	  if ( std::abs(tauEtaAtEcalEntrance) < ECALBarrelEndcapEtaBorder ) { // Barrel
@@ -183,7 +180,10 @@ double PATTauDiscriminationAgainstElectronMVA6::discriminate(const TauRef& theTa
 
 	  mvaValue = std::min(mvaValue, mva_match);
 	  isGsfElectronMatched = true;
-	} //idx != -1
+	
+	 } // deltaR < 0.3
+       } // electron pt > 10
+     } // end of loop over electrons
 
 
     if ( !isGsfElectronMatched ) {
